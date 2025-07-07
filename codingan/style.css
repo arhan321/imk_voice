@@ -1,0 +1,250 @@
+/* --------------------------------------------------
+    GLOBAL STYLE
+-------------------------------------------------- */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    color: #2c3e50;
+}
+
+/* --------------------------------------------------
+    CARD / GAME CONTAINER
+-------------------------------------------------- */
+.game-container {
+    position: relative;
+    width: min(95%, 550px); /* Sedikit lebih lebar untuk grafik */
+    padding: 2.5rem;
+    border-radius: 1.75rem;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    overflow: hidden;
+}
+
+.game-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.5), transparent 60%);
+    pointer-events: none;
+}
+
+/* --------------------------------------------------
+    TYPOGRAPHY & INSTRUCTIONS
+-------------------------------------------------- */
+h1 {
+    margin: 0 0 1rem;
+    font-size: clamp(1.5rem, 2.5vw + 1rem, 2rem);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+#instructions {
+    font-size: 1rem;
+    line-height: 1.55;
+    color: #34495e;
+    min-height: 3.2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* --------------------------------------------------
+    GAME ELEMENTS (Saat Permainan Berlangsung)
+-------------------------------------------------- */
+#game-circle {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 1.5rem auto; /* Atur margin bawah */
+    border-radius: 50%;
+    background: #bdc3c7; /* default */
+    border: 10px solid #ffffffcc;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), inset 0 4px 8px rgba(0, 0, 0, 0.08);
+    transition: background .45s ease, transform .3s ease;
+}
+
+.correct-animation {
+    animation: pulse 0.8s ease;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+#score-display {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+#score-display #score-value {
+    display: inline-block;
+    min-width: 2.5rem;
+    text-align: center;
+    padding: .2rem .65rem;
+    border-radius: .75rem;
+    background: #ffffffaa;
+    backdrop-filter: blur(6px);
+}
+
+/* --------------------------------------------------
+    END-GAME CHART DISPLAY
+-------------------------------------------------- */
+#chart-container.hidden {
+    display: none; /* Sembunyikan wadah grafik secara default */
+}
+
+.chart-title {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+}
+
+.chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.chart-item {
+    background: rgba(255, 255, 255, 0.4);
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.chart-item.full-width {
+    grid-column: 1 / -1; /* Membuat bar chart mengambil lebar penuh */
+}
+
+.chart-item h3 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #34495e;
+}
+
+.chart-item {                /* tinggi konsisten */
+  position: relative;
+  height: 260px;             /* bebas disesuaikan */
+}
+
+.chart-item canvas {         /* biar 100% lebar parent */
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Responsive untuk layar kecil */
+@media (max-width: 576px) {
+    .game-container {
+        padding: 2rem 1.5rem;
+    }
+    .chart-grid {
+        grid-template-columns: 1fr; /* Susun grafik secara vertikal */
+    }
+}
+
+/* --------------------------------------------------
+    FEEDBACK & STATUS
+-------------------------------------------------- */
+.feedback-correct {
+    color: #27ae60;
+    font-weight: 600;
+}
+
+.feedback-wrong {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+#mic-status {
+    min-height: 1.5rem;
+    font-size: 0.95rem;
+    color: #7f8c8d;
+    margin-bottom: 1.5rem;
+}
+
+/* --------------------------------------------------
+    BUTTONS
+-------------------------------------------------- */
+.button-wrapper {
+    margin-top: 1.5rem;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .65rem;
+    background: linear-gradient(135deg, #3498db 0%, #647BFF 100%);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: .85rem 2.5rem;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+
+/* ----------  MODAL  ---------- */
+.modal{
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.45);
+  display:flex; justify-content:center; align-items:center;
+  z-index:999;
+}
+.modal-content{
+  width:min(90%,400px);
+  background:#fff; color:#2c3e50;
+  border-radius:1.25rem; padding:2rem 2.5rem; text-align:center;
+  box-shadow:0 12px 28px rgba(0,0,0,.18);
+}
+.input-group{display:flex; gap:.65rem; margin:1.25rem 0;}
+.input-group input{
+  flex:1; padding:.85rem 1rem; border:1px solid #dcdde1;
+  border-radius:.85rem; font-family:inherit; font-size:1rem;
+}
+.btn-icon{
+  background:#3498db; color:#fff; border:none; cursor:pointer;
+  width:52px; border-radius:50%; font-size:1.1rem;
+}
+
+/* ----------  Player name on result  ---------- */
+.player-name{
+  font-size:1.1rem; font-weight:600;
+  margin:0 0 .5rem; color:#2c3e50;
+}
+.hidden{display:none!important;}
+s
